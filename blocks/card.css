@@ -17,7 +17,7 @@
   text-overflow: ellipsis;
   white-space: nowrap;
   overflow: hidden;
-  max-width: 413px;
+  max-width: 350px;
   margin: 0;
   font-family: Poppins, Arial, Helvetica, sans-serif;
   font-weight: 500;
@@ -59,6 +59,7 @@
   .card__title {
     font-size: 16px;
     line-height: 1;
+    max-width: 250px;
   }
 
   .card__like-button {
