@@ -26,11 +26,40 @@ const initialCards = [
 ];
 
 const profileEditButton = document.querySelector(".profile__edit-button");
+const profileNameElement = document.querySelector(".profile__name");
+const profileDescriptionElement = document.querySelector(
+  ".profile__description"
+);
 
 const editModal = document.querySelector("#edit-modal");
+const editFormElement = editModal.querySelector(".modal__form");
 const editModalCloseButton = editModal.querySelector(".modal__close-button");
+const editModalNameInput = editModal.querySelector("#profile-name-input");
+const editModalDescriptionInput = editModal.querySelector(
+  "#profile-description-input"
+);
+
+const cardTemplate = document.querySelector("#card-template");
+const cardsList = document.querySelector(".cards__list");
+
+function getCardElement(data) {
+  const cardElement = cardTemplate.content
+    .querySelector(".card")
+    .cloneNode(true);
+
+  const cardNameElement = cardElement.querySelector(".card__title");
+  const cardImageElement = cardElement.querySelector(".card__image");
+
+  cardNameElement.textContent = data.name;
+  cardImageElement.src = data.link;
+  cardImageElement.alt = data.altText;
+
+  return cardElement;
+}
 
 function openModal() {
+  editModalNameInput.value = profileNameElement.textContent;
+  editModalDescriptionInput.value = profileDescriptionElement.textContent;
   editModal.classList.add("modal_opened");
 }
 
@@ -38,6 +67,18 @@ function closeModal() {
   editModal.classList.remove("modal_opened");
 }
 
-profileEditButton.addEventListener("click", openModal);
+function handleEditFormSubmit(evt) {
+  evt.preventDefault();
+  profileNameElement.textContent = editModalNameInput.value;
+  profileDescriptionElement.textContent = editModalDescriptionInput.value;
+  closeModal();
+}
 
+profileEditButton.addEventListener("click", openModal);
 editModalCloseButton.addEventListener("click", closeModal);
+editFormElement.addEventListener("submit", handleEditFormSubmit);
+
+for (let i = 0; i < initialCards.length; i++) {
+  const cardElement = getCardElement(initialCards[i]);
+  cardsList.append(cardElement);
+}
