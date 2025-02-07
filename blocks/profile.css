@@ -87,7 +87,7 @@
   line-height: 1;
 }
 
-.profile__add-button:hover {
+.profile__new-post-button:hover {
   opacity: 0.8;
 }
 
@@ -127,7 +127,7 @@
     margin: 0 auto;
   }
 
-  .profile__add-button {
+  .profile__new-post-button {
     margin: 0;
     font-size: 16px;
     width: 288px;
