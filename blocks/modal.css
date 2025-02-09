@@ -31,7 +31,7 @@
   border-radius: 8px;
 }
 
-.modal__container_type_preview {
+.modal__container--type_image-preview {
   padding: 0;
   background-color: transparent;
   display: block;
@@ -85,7 +85,7 @@
   opacity: 40%;
 }
 
-.modal__close_type_image-preview {
+.modal__close-button--type_image-preview {
   top: 0;
   right: -52.5px;
   background-image: url(../images/preview-close.svg);
@@ -105,7 +105,7 @@
   opacity: 1;
 }
 
-.modal__close_type_image-preview:hover {
+.modal__close-button--type_image-preview:hover {
   opacity: 0.4;
 }
 
@@ -190,7 +190,8 @@
     font-size: 16px;
   }
 
-  .modal__close_type_image-preview {
+  .modal__close-button--type_image-preview {
     top: -41px;
+    left: 264px;
   }
 }
