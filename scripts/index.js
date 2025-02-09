@@ -24,6 +24,10 @@ const initialCards = [
     link: "https://practicum-content.s3.us-west-1.amazonaws.com/software-engineer/spots/6-photo-by-moritz-feldmann-from-pexels.jpg",
   },
 ];
+initialCards.unshift({
+  name: "Golden Gate Bridge",
+  link: "https://practicum-content.s3.us-west-1.amazonaws.com/software-engineer/spots/7-photo-by-griffin-wooldridge-from-pexels.jpg",
+});
 
 const profileEditButton = document.querySelector(".profile__edit-button");
 const cardModalButton = document.querySelector(".profile__new-post-button");
@@ -48,6 +52,14 @@ const cardModalCloseButton = cardModal.querySelector(".modal__close-button");
 const cardModalLinkInput = cardModal.querySelector("#add-card-link-input");
 const cardModalNameInput = cardModal.querySelector("#add-card-name-input");
 
+const previewModal = document.querySelector("#preview-modal");
+const previewModalImageElement = previewModal.querySelector(".modal__image");
+const previewModalCaptionElement =
+  previewModal.querySelector(".modal__caption");
+const previewModalCloseButton = previewModal.querySelector(
+  ".modal__close-button"
+);
+
 const cardTemplate = document.querySelector("#card-template");
 const cardsList = document.querySelector(".cards__list");
 
@@ -69,6 +81,17 @@ function getCardElement(data) {
     cardLikeButton.classList.toggle("card__like-button_liked");
   });
 
+  cardImageElement.addEventListener("click", () => {
+    openModal(previewModal);
+    previewModalImageElement.src = data.link;
+    previewModalCaptionElement.textContent = data.name;
+    previewModalImageElement.alt = data.altText;
+  });
+
+  previewModalCloseButton.addEventListener("click", () => {
+    closeModal(previewModal);
+  });
+
   cardDeleteButton.addEventListener("click", () => {
     cardElement.remove();
   });
@@ -77,11 +100,11 @@ function getCardElement(data) {
 }
 
 function openModal(modal) {
-  modal.classList.add("modal_opened");
+  modal.classList.add("modal_is-opened");
 }
 
 function closeModal(modal) {
-  modal.classList.remove("modal_opened");
+  modal.classList.remove("modal_is-opened");
 }
 
 function handleEditFormSubmit(evt) {
