@@ -123,14 +123,17 @@ function handleEditFormSubmit(evt) {
   closeModal(editModal);
 }
 
+function renderCard(item, method = "prepend") {
+  const cardElement = getCardElement(item);
+  cardsList[method](cardElement);
+}
 function handleCardModalFormSubmit(evt) {
   evt.preventDefault();
   const inputValues = {
     name: cardModalNameInput.value,
     link: cardModalLinkInput.value,
   };
-  const cardElement = getCardElement(inputValues);
-  cardsList.prepend(cardElement);
+  renderCard(inputValues);
   evt.target.reset();
   closeModal(cardModal);
 }
@@ -149,6 +152,5 @@ editFormElement.addEventListener("submit", handleEditFormSubmit);
 cardModalFormElement.addEventListener("submit", handleCardModalFormSubmit);
 
 initialCards.forEach((item) => {
-  const cardElement = getCardElement(item);
-  cardsList.append(cardElement);
+  renderCard(item, "append");
 });
