@@ -156,8 +156,8 @@
   cursor: pointer;
   width: 156px;
   padding: 18px 0;
-  background-color: #212121;
-  color: #fff;
+  background-color: rgba(33, 33, 33, 1);
+  color: rgba(252, 245, 229, 1);
   border-radius: 8px;
   font-family: Poppins, Arial, Helvetica, sans-serif;
   font-weight: 500;
@@ -170,7 +170,9 @@
 }
 
 .modal__submit-button_inactive {
-  color: rgba(33, 33, 33, 1);
+  background-color: rgba(33, 33, 33, 1);
+  color: rgba(252, 245, 229, 1);
+  opacity: 50%;
 }
 
 @media screen and (max-width: 627px) {
