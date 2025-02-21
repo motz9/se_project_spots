@@ -22,17 +22,31 @@ const checkInputValidity = (formElement, inputElement) => {
   }
 };
 
-const setEventListeners = (formElement) => {
-  const inputList = formElement.querySelectorAll(".modal__input");
-  const buttonElement = formElement.querySelector(".modal__submit-button");
-  console.log(inputList);
+const hasInvalidInput = (inputList) => {
+  return inputList.some((inputElement) => {
+    return !inputList.validity.valid;
+  });
+};
 
+const toggleButtonState = (inputList, buttonElement) => {
+  if (hasInvalidInput(inputList)) {
+    buttonElement.disabled = true;
+    buttonElement.classList.add("modal__submit-button_inactive");
+  } else {
+    buttonElement.disabled = false;
+    buttonElement.classList.remove("modal__submit-button_inactive");
+  }
+};
+
+const setEventListeners = (formElement) => {
+  const inputList = Array.from(formElement.querySelectorAll(".modal__input"));
+  const buttonElement = formElement.querySelector(".modal__submit-button");
   //toggleButtonState(inputList, buttonElement);
 
   inputList.forEach((inputElement) => {
     inputElement.addEventListener("input", function () {
       checkInputValidity(formElement, inputElement);
-      // toggleButtonState(inputList, buttonElement);
+      toggleButtonState(inputList, buttonElement);
     });
   });
 };
