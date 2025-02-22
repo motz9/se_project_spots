@@ -136,17 +136,18 @@ function handleCardModalFormSubmit(evt) {
   };
   renderCard(inputValues);
   evt.target.reset();
-  disableButton(cardModalSubmitButton);
+  disableButton(cardModalSubmitButton, settings);
   closeModal(cardModal);
 }
 
 profileEditButton.addEventListener("click", () => {
   editModalNameInput.value = profileNameElement.textContent;
   editModalDescriptionInput.value = profileDescriptionElement.textContent;
-  resetValidation(editFormElement, [
-    editModalNameInput,
-    editModalDescriptionInput,
-  ]);
+  resetValidation(
+    editFormElement,
+    [editModalNameInput, editModalDescriptionInput],
+    settings
+  );
   openModal(editModal);
 });
 
