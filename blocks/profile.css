@@ -68,6 +68,11 @@
   opacity: 1;
 }
 
+.profile__edit-button:focus {
+  outline: 2px solid transparent;
+  outline-offset: 2px;
+}
+
 .profile__new-post-button {
   cursor: pointer;
   margin-top: auto;

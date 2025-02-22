@@ -107,14 +107,44 @@ function setupCloseButtonListeners() {
 
 document.addEventListener("DOMContentLoaded", () => {
   setupCloseButtonListeners();
+
+  const editProfileModal = document.querySelector("#edit-modal");
+  if (editProfileModal.classList.contains("modal_is-opened")) {
+    editProfileModal.classList.remove("modal_is-opened");
+  }
 });
 
+const overlay = document.querySelector(".page");
+
+function closeOverlay(modal) {
+  closeModal(modal);
+}
+
 function openModal(modal) {
+  document.addEventListener("keydown", handleEsc);
+  modal.addEventListener("click", (evt) => {
+    if (evt.target === modal) {
+      closeModal(modal);
+    }
+  });
   modal.classList.add("modal_is-opened");
 }
 
+const modal = document.querySelector(".modal");
+openModal(modal);
+
 function closeModal(modal) {
+  document.removeEventListener("keydown", handleEsc);
   modal.classList.remove("modal_is-opened");
+}
+
+function handleEsc(evt) {
+  if (evt.key === "Escape") {
+    const openModal = document.querySelector(".modal_is-opened");
+    if (openModal) {
+      closeModal(openModal);
+    }
+  }
 }
 
 function handleEditFormSubmit(evt) {
