@@ -110,15 +110,22 @@ document.addEventListener("DOMContentLoaded", () => {
 
   const editProfileModal = document.querySelector("#edit-modal");
   editProfileModal.classList.remove("modal_is-opened");
-  closeModal(modal);
 });
+
+function handleOverlay(evt) {
+  if (evt.target.classList.contains("modal_is-opened")) {
+    closeModal(evt.target);
+  }
+}
 
 function openModal(modal) {
   document.addEventListener("keydown", handleEsc);
+  modal.addEventListener("mousedown", handleOverlay);
   modal.classList.add("modal_is-opened");
 }
 
 function closeModal(modal) {
+  document.removeEventListener("mousedown", handleOverlay);
   document.removeEventListener("keydown", handleEsc);
   modal.classList.remove("modal_is-opened");
 }
