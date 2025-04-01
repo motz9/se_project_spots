@@ -1,4 +1,5 @@
-import { enableValidation, validationConfig, resetValidation } from "./validation.js";
+import { enableValidation, validationConfig, resetValidation } from "../scripts/validation.js";
+import "../index.css";
 
 const initialCards = [
   {
@@ -37,8 +38,8 @@ const profileNameElement = document.querySelector(".profile__name");
 const profileDescriptionElement = document.querySelector(
   ".profile__description"
 );
-const cardModalLinkElement = document.querySelector("add-card__link");
-const cardModalNameElement = document.querySelector("add-card__name");
+const cardModalLinkElement = document.querySelector(".add-card__link");
+const cardModalNameElement = document.querySelector(".add-card__name");
 
 const editModal = document.querySelector("#edit-modal");
 const editFormElement = editModal.querySelector(".modal__form");
@@ -160,7 +161,7 @@ function handleCardModalFormSubmit(evt) {
   };
   renderCard(inputValues);
   evt.target.reset();
-  disableButton(cardModalSubmitButton, settings);
+  disableButton(cardModalSubmitButton, validationConfig);
   closeModal(cardModal);
 }
 
