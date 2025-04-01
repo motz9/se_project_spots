@@ -1,3 +1,5 @@
+import { enableValidation, validationConfig, resetValidation } from "./validation.js";
+
 const initialCards = [
   {
     name: "Val Thorens",
@@ -168,7 +170,7 @@ profileEditButton.addEventListener("click", () => {
   resetValidation(
     editFormElement,
     [editModalNameInput, editModalDescriptionInput],
-    settings
+    validationConfig
   );
   openModal(editModal);
 });
@@ -183,3 +185,5 @@ cardModalFormElement.addEventListener("submit", handleCardModalFormSubmit);
 initialCards.forEach((item) => {
   renderCard(item, "append");
 });
+
+enableValidation(validationConfig);
