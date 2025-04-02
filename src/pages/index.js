@@ -1,5 +1,9 @@
-import { enableValidation, validationConfig, resetValidation } from "../scripts/validation.js";
-import "./src/pages/index.css";
+import { enableValidation, validationConfig, resetValidation, disableButton } from "../scripts/validation.js";
+import "./index.css";
+import logoPath from "../images/logo.svg";
+import pencilPath from "../images/pencil.svg";
+import plusPath from "../images/plus.svg";
+import avatarPath from "../images/avatar.jpg";
 
 const initialCards = [
   {
@@ -115,6 +119,11 @@ document.addEventListener("DOMContentLoaded", () => {
   editProfileModal.classList.remove("modal_is-opened");
 });
 
+document.querySelector('.header__logo').src = logoPath;
+document.querySelector('.profile__avatar').src = avatarPath;
+document.querySelector('.profile__edit-button img').src = pencilPath;
+document.querySelector('.profile__new-post-button img').src = plusPath;
+
 function handleOverlay(evt) {
   if (evt.target.classList.contains("modal_is-opened")) {
     closeModal(evt.target);
@@ -128,7 +137,7 @@ function openModal(modal) {
 }
 
 function closeModal(modal) {
-  document.removeEventListener("mousedown", handleOverlay);
+  modal.removeEventListener("mousedown", handleOverlay);
   document.removeEventListener("keydown", handleEsc);
   modal.classList.remove("modal_is-opened");
 }
