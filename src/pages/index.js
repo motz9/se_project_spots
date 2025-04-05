@@ -4,6 +4,7 @@ import logoPath from "../images/logo.svg";
 import pencilPath from "../images/pencil.svg";
 import plusPath from "../images/plus.svg";
 import avatarPath from "../images/avatar.jpg";
+import Api from "../utils/Api.js";
 
 const initialCards = [
   {
@@ -35,6 +36,21 @@ initialCards.unshift({
   name: "Golden Gate Bridge",
   link: "https://practicum-content.s3.us-west-1.amazonaws.com/software-engineer/spots/7-photo-by-griffin-wooldridge-from-pexels.jpg",
 });
+
+const api = new Api({
+  baseUrl: "https://around-api.en.tripleten-services.com/v1",
+  headers: {
+    authorization: "4d9c0213-ee82-4209-9e72-4d7217385aae",
+    "Content-Type": "application/json"
+  }
+});
+
+api.getInitialCards()
+  .then((cards) => {
+    cards.forEach((item) => {
+      renderCard(item, "append");
+    })
+  }).catch(console.error);
 
 const profileEditButton = document.querySelector(".profile__edit-button");
 const cardModalButton = document.querySelector(".profile__new-post-button");
@@ -192,8 +208,6 @@ cardModalButton.addEventListener("click", () => {
 editFormElement.addEventListener("submit", handleEditFormSubmit);
 cardModalFormElement.addEventListener("submit", handleCardModalFormSubmit);
 
-initialCards.forEach((item) => {
-  renderCard(item, "append");
-});
+
 
 enableValidation(validationConfig);
