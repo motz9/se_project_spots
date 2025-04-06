@@ -45,12 +45,18 @@ const api = new Api({
   }
 });
 
-api.getInitialCards()
-  .then((cards) => {
-    cards.forEach((item) => {
-      renderCard(item, "append");
+api.getAppInfo()
+    .then(([ cards, userInfo ]) => {
+      console.log(cards, userInfo);
+      cards.forEach((item) => {
+        renderCard(item, "append");
+      });
+
+      document.querySelector('.profile__name').textContent = userInfo.name;
+      document.querySelector('.profile__description').textContent = userInfo.about;
+      document.querySelector('.profile__avatar').src = userInfo.avatar;
     })
-  }).catch(console.error);
+    .catch(console.error);
 
 const profileEditButton = document.querySelector(".profile__edit-button");
 const cardModalButton = document.querySelector(".profile__new-post-button");
@@ -136,7 +142,6 @@ document.addEventListener("DOMContentLoaded", () => {
 });
 
 document.querySelector('.header__logo').src = logoPath;
-document.querySelector('.profile__avatar').src = avatarPath;
 document.querySelector('.profile__edit-button img').src = pencilPath;
 document.querySelector('.profile__new-post-button img').src = plusPath;
 
@@ -169,9 +174,14 @@ function handleEsc(evt) {
 
 function handleEditFormSubmit(evt) {
   evt.preventDefault();
-  profileNameElement.textContent = editModalNameInput.value;
-  profileDescriptionElement.textContent = editModalDescriptionInput.value;
-  closeModal(editModal);
+  api.editUserInfo({ name: editModalNameInput.value, about: editModalDescriptionInput.value })
+    .then((data) => {
+      profileNameElement.textContent = data.name;
+      profileDescriptionElement.textContent = data.about;
+      closeModal(editModal);
+    })
+    .catch(console.error);
+
 }
 
 function renderCard(item, method = "prepend") {
