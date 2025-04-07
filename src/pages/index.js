@@ -47,7 +47,6 @@ const api = new Api({
 
 api.getAppInfo()
     .then(([ cards, userInfo ]) => {
-      console.log(cards, userInfo);
       cards.forEach((item) => {
         renderCard(item, "append");
       });
@@ -60,6 +59,7 @@ api.getAppInfo()
 
 const profileEditButton = document.querySelector(".profile__edit-button");
 const cardModalButton = document.querySelector(".profile__new-post-button");
+const avatarModalButton = document.querySelector(".profile__avatar-button");
 const profileNameElement = document.querySelector(".profile__name");
 const profileDescriptionElement = document.querySelector(
   ".profile__description"
@@ -92,6 +92,15 @@ const previewModalCloseButton = previewModal.querySelector(
 
 const cardTemplate = document.querySelector("#card-template");
 const cardsList = document.querySelector(".cards__list");
+
+const avatarModal = document.querySelector("#avatar-modal");
+const avatarModalFormElement = avatarModal.querySelector(".modal__form");
+const avatarModalSubmitButton = avatarModal.querySelector(".modal__submit-button");
+const avatarModalCloseButton = avatarModal.querySelector(".modal__close-button");
+const avatarModalLinkInput = avatarModal.querySelector("#profile-avatar-input");
+const avatarImage = document.querySelector(".profile__avatar");
+
+const deleteModal = document.querySelector("#delete-modal");
 
 function getCardElement(data) {
   const cardElement = cardTemplate.content
@@ -172,6 +181,10 @@ function handleEsc(evt) {
   }
 }
 
+function handleDeleteCard(evt) {
+  openModal(deleteModal);
+}
+
 function handleEditFormSubmit(evt) {
   evt.preventDefault();
   api.editUserInfo({ name: editModalNameInput.value, about: editModalDescriptionInput.value })
@@ -215,6 +228,27 @@ cardModalButton.addEventListener("click", () => {
   openModal(cardModal);
 });
 
+avatarModalButton.addEventListener("click", () => {
+  resetValidation(
+    avatarModalFormElement,
+    [avatarModalLinkInput],
+    validationConfig
+  );
+  openModal(avatarModal);
+});
+
+function handleAvatarFormSubmit(evt) {
+  evt.preventDefault();
+  api.updateAvatar({ avatar: avatarModalLinkInput.value })
+    .then((data) => {
+      avatarImage.src = data.avatar;
+      closeModal(avatarModal);
+    })
+    .catch((error) => {
+    });
+}
+
+avatarModalFormElement.addEventListener("submit", handleAvatarFormSubmit);
 editFormElement.addEventListener("submit", handleEditFormSubmit);
 cardModalFormElement.addEventListener("submit", handleCardModalFormSubmit);
 
