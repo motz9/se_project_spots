@@ -57,6 +57,10 @@ api.getAppInfo()
     })
     .catch(console.error);
 
+
+
+let cardIdToDelete = null;
+
 const profileEditButton = document.querySelector(".profile__edit-button");
 const cardModalButton = document.querySelector(".profile__new-post-button");
 const avatarModalButton = document.querySelector(".profile__avatar-button");
@@ -102,10 +106,26 @@ const avatarImage = document.querySelector(".profile__avatar");
 
 const deleteModal = document.querySelector("#delete-modal");
 
+const deleteModalForm = deleteModal.querySelector(".modal__form");
+
+deleteModalForm.addEventListener("submit", (evt) => {
+  evt.preventDefault();
+  const cardToDelete = document.querySelector(`[data-card-id = "${cardIdToDelete}"]`);
+
+  api.deleteCard(cardIdToDelete)
+    .then(() => {
+      cardToDelete.remove();
+      closeModal(deleteModal);
+    })
+    .catch((err) => console.error(err));
+});
+
 function getCardElement(data) {
   const cardElement = cardTemplate.content
     .querySelector(".card")
     .cloneNode(true);
+
+  cardElement.dataset.cardId = data._id;
 
   const cardNameElement = cardElement.querySelector(".card__title");
   const cardImageElement = cardElement.querySelector(".card__image");
@@ -128,7 +148,8 @@ function getCardElement(data) {
   });
 
   cardDeleteButton.addEventListener("click", () => {
-    cardElement.remove();
+    cardIdToDelete= data._id;
+    openModal(deleteModal);
   });
 
   return cardElement;
@@ -147,7 +168,6 @@ document.addEventListener("DOMContentLoaded", () => {
   setupCloseButtonListeners();
 
   const editProfileModal = document.querySelector("#edit-modal");
-  editProfileModal.classList.remove("modal_is-opened");
 });
 
 document.querySelector('.header__logo').src = logoPath;
@@ -181,10 +201,6 @@ function handleEsc(evt) {
   }
 }
 
-function handleDeleteCard(evt) {
-  openModal(deleteModal);
-}
-
 function handleEditFormSubmit(evt) {
   evt.preventDefault();
   api.editUserInfo({ name: editModalNameInput.value, about: editModalDescriptionInput.value })
@@ -207,10 +223,15 @@ function handleCardModalFormSubmit(evt) {
     name: cardModalNameInput.value,
     link: cardModalLinkInput.value,
   };
-  renderCard(inputValues);
-  evt.target.reset();
-  disableButton(cardModalSubmitButton, validationConfig);
-  closeModal(cardModal);
+
+  api.addNewCard(inputValues)
+    .then((newCard) => {
+      renderCard(newCard);
+      evt.target.reset();
+      disableButton(cardModalSubmitButton, validationConfig);
+      closeModal(cardModal);
+    })
+    .catch(console.error);
 }
 
 profileEditButton.addEventListener("click", () => {
